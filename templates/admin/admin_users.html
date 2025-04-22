@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Admin: Users{% endblock %}
+{% block content %}
+<h2>User Management</h2>
+
+<h3>Add New User</h3>
+<form method="post" action="/admin/users/add" class="row g-3 mt-2 mb-4">
+    <div class="col-md-3">
+        <input class="form-control" type="text" name="username" placeholder="Username" required>
+    </div>
+    <div class="col-md-3">
+        <input class="form-control" type="text" name="password" placeholder="Password" required>
+    </div>
+    <div class="col-md-3">
+        <select class="form-select" name="role" id="role-select" required>
+            <option value="user">user</option>
+            <option value="owner">owner</option>
+            <option value="admin">admin</option>
+        </select>
+    </div>
+    <div class="col-md-3" id="company-select-container" style="display: none;">
+        <select class="form-select" name="company_id">
+            <option value="">-- Select Company --</option>
+            {% for company in companies %}
+                <option value="{{ company['id'] }}">{{ company['name'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-12">
+        <button class="btn btn-success" type="submit" onclick="return confirm('Are you sure you want to create this user?');">
+            <i class="bi bi-person-plus"></i> Create
+        </button>
+    </div>
+</form>
+
+<script>
+document.getElementById("role-select").addEventListener("change", function() {
+    const role = this.value;
+    const companyContainer = document.getElementById("company-select-container");
+    companyContainer.style.display = role === "owner" ? "block" : "none";
+});
+</script>
+
+
+<h3>Existing Users</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Company (if owner)</th>
+            <th>Change Role / Company</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user['username'] }}</td>
+            <td>{{ user['role'] }}</td>
+            <td>
+                {% for company in companies %}
+                    {% if user['company_id'] == company['id'] %}
+                        {{ company['name'] }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                <form method="post" action="/admin/users/edit" class="row gx-2">
+                    <input type="hidden" name="username" value="{{ user['username'] }}">
+                    <div class="col-auto">
+                        <select name="role" class="form-select role-select" data-user="{{ user['username'] }}">
+                            <option value="user" {% if user['role'] == 'user' %}selected{% endif %}>user</option>
+                            <option value="owner" {% if user['role'] == 'owner' %}selected{% endif %}>owner</option>
+                            <option value="admin" {% if user['role'] == 'admin' %}selected{% endif %}>admin</option>
+                        </select>
+                    </div>
+                    <div class="col-auto company-select-container" id="company-{{ user['username'] }}"
+                         style="display: {% if user['role'] == 'owner' %}block{% else %}none{% endif %};">
+                        <select name="company_id" class="form-select">
+                            <option value="">-- Select Company --</option>
+                            {% for company in companies %}
+                                <option value="{{ company['id'] }}"
+                                    {% if user['company_id'] == company['id'] %}selected{% endif %}>
+                                    {{ company['name'] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></button>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/admin/users/delete" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    <input type="hidden" name="username" value="{{ user['username'] }}">
+                    <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                </form>                
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+document.querySelectorAll(".role-select").forEach(select => {
+    select.addEventListener("change", function () {
+        const username = this.dataset.user;
+        const companyDiv = document.getElementById("company-" + username);
+        if (this.value === "owner") {
+            companyDiv.style.display = "block";
+        } else {
+            companyDiv.style.display = "none";
+        }
+    });
+});
+</script>
+{% endblock %}

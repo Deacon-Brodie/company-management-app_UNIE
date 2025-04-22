@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Admin: Companies{% endblock %}
+{% block content %}
+
+<h2>Add Company (Admin)</h2>
+<form method="post" action="/admin/companies/add" class="row g-3 mt-2 mb-4">
+    <div class="mb-3">
+        <label class="form-label">Company Name</label>
+        <input class="form-control" type="text" name="company_name" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Owner</label>
+        <input class="form-control" type="text" name="owner" required>
+    </div>
+    <div class="col-md-12">
+        <button class="btn btn-success" type="submit" onclick="return confirm('Are you sure you want to create this company?');">
+            <i class="bi bi-person-plus"></i> Create
+        </button>
+    </div>
+</form>
+
+<h2>All Companies</h2>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr><th>Name</th><th>Owner</th><th>Delete</th></tr>
+    </thead>
+    <tbody>
+        {% for company in companies %}
+        <tr>
+            <td><a href="/companies/{{ company['id'] }}" class="text-decoration-none">
+                <span>{{ company['name']|safe }}</span>
+            </a></td>
+            <td>{{ company['owner'] }}</td>
+            <td><form method="post" action="/admin/companies/delete" onsubmit="return confirm('Are you sure you want to delete this company?');">
+            <input type="hidden" name="company" value="{{ company['id'] }}">
+            <button class="btn btn-danger"><i class="bi bi-trash"></i> Delete</button>
+        </form>
+        </td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
