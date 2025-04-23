@@ -1,7 +1,7 @@
 from db import get_users_connection, hash_password
 from flask import request, redirect, render_template, session
 from server import app
-<!-- Comentario de codigo fuente antes corregir las vulnerabilidades -->
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
