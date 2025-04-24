@@ -32,8 +32,8 @@ This system simulates a realistic business environment and includes features suc
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/your-org/company-management-app.git
-cd company-management-app
+git clone https://github.com/Deacon-Brodie/company-management-app_UNIE.git
+cd company-management-app_UNIE
 ```
 
 2. **Install dependencies**
