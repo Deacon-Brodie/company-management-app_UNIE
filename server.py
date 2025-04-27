@@ -1,9 +1,12 @@
-from flask import Flask
+import os
+from dotenv import load_dotenv
+from flask import Flask, session, redirect, url_for, flash
 from flask_wtf import CSRFProtect
 
+load_dotenv()
+
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Clave segura necesaria para CSRF y sesiones
-app.permanent_session_lifetime = 99999999
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
 csrf = CSRFProtect(app)  # Activar protección CSRF
 
