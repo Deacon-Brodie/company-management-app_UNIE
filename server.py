@@ -22,3 +22,12 @@ def inject_csrf_token():
 
 # Importar rutas al final para evitar errores de importación circular
 from routes import companies_admin, users_admin, auth
+
+from flask import session, redirect, url_for, flash
+from server import app  # Asegúrate de importar la instancia de Flask
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out successfully.', 'success')
+    return redirect(url_for('login'))  # Asegúrate que tienes la ruta 'login'
