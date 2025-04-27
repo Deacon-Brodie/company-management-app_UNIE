@@ -1,13 +1,36 @@
 import sqlite3
 import os
 import hashlib
+import bcrypt
+
 
 DB_DIR = os.path.join(os.path.dirname(__file__), '..', 'db')
 USERS_DB = os.path.join(DB_DIR, 'users.db')
 DATA_DB = os.path.join(DB_DIR, 'data.db')
 
 def hash_password(password):
-    return hashlib.md5(password.encode()).hexdigest()
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed.decode('utf-8')  # Opcional: lo devolvemos como string para guardar más fácilmente en la base de datos
+
+def verify_password(password, stored_hash, username=None):
+    # Si el hash almacenado es MD5 (32 caracteres hexadecimales)
+    if len(stored_hash) == 32 and all(c in '0123456789abcdef' for c in stored_hash.lower()):
+        # Comparar usando MD5
+        if hashlib.md5(password.encode()).hexdigest() == stored_hash:
+            # Si coincide, migrar a bcrypt automáticamente
+            if username:
+                conn = get_users_connection()
+                new_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                conn.execute("UPDATE users SET password = ? WHERE username = ?", (new_hash, username))
+                conn.commit()
+                conn.close()
+            return True
+        else:
+            return False
+    else:
+        # Verificar normalmente con bcrypt
+        return bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8'))
 
 def ensure_users_db():
     # Primero, asegurarse de que las tablas de datos existen (empresas, comentarios)
