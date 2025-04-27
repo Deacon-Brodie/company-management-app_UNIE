@@ -5,6 +5,7 @@
 
 <h3>Add New User</h3>
 <form method="post" action="/admin/users/add" class="row g-3 mt-2 mb-4">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     <div class="col-md-3">
         <input class="form-control" type="text" name="username" placeholder="Username" required>
     </div>
@@ -67,6 +68,7 @@ document.getElementById("role-select").addEventListener("change", function() {
             </td>
             <td>
                 <form method="post" action="/admin/users/edit" class="row gx-2">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     <input type="hidden" name="username" value="{{ user['username'] }}">
                     <div class="col-auto">
                         <select name="role" class="form-select role-select" data-user="{{ user['username'] }}">
@@ -94,6 +96,7 @@ document.getElementById("role-select").addEventListener("change", function() {
             </td>
             <td>
                 <form method="post" action="/admin/users/delete" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     <input type="hidden" name="username" value="{{ user['username'] }}">
                     <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                 </form>                
