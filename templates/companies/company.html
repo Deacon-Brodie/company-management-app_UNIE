@@ -9,7 +9,7 @@
 <h3>Comments</h3>
 <ul class="list-group mb-4">
     {% for comment in comments %}
-        <li class="list-group-item"><strong>{{ comment['user'] }}:</strong> {{ comment['comment']|safe }}</li>
+        <li class="list-group-item"><strong>{{ comment['user'] }}</strong>: {{ comment['comment'] }}</li>
     {% endfor %}
 </ul>
 
