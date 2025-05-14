@@ -80,8 +80,10 @@ chmod +x start.sh
 ├── static/
 │   └── css/style.css       # Custom styles
 ├── requirements.txt        # Python dependencies
+├── Procfile                # Comando que se debe ejecutar para arrancar la aplicación web
 ├── README.md               # Project documentation
-└── LICENSE                 # License file
+├── LICENSE                 # License file
+└── start.sh                # Script automatico para ejecutar la aplicación
 ```
 
 ---
