@@ -42,15 +42,21 @@ cd company-management-app_UNIE
 pip install -r requirements.txt
 ```
 
-3. **Run the application**
+3. **Brindar permisos**
 
 ```bash
-python main.py
+chmod +x start.sh
+```
+
+4. **Run the application**
+
+```bash
+./start.sh
 ```
 
 ✅ The database will be automatically initialized on the first run.
 
-4. Visit: `http://127.0.0.1:5000`
+5. Visit: `http://127.0.0.1:5000`
 
 ---
 
