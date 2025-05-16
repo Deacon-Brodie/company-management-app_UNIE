@@ -30,6 +30,7 @@ jobs:
             echo "✅ SAST limpio de vulnerabilidades críticas"
           fi
 
+
       - name: Ejecutar análisis SCA (dependencias)
         env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
