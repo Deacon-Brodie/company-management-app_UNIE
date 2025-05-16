@@ -3,7 +3,7 @@
 
 **Company Management App** is a web platform that allows users to manage companies and post comments about them. The application supports three roles (`admin`, `owner`, and `user`) with different permissions and access levels.
 
-This system simulates a realistic business environment and includes features such as user authentication, role-based access control, and dynamic forms. It uses Bootstrap for a responsive interface and intentionally includes common security vulnerabilities for educational purposes.
+This system simulates a realistic business environment and includes features such as user authentication, role-based access control, and dynamic forms. It uses Bootstrap for a responsive interface and intentionally includes common security vulnerabilities for educational purposes..
 
 ---
 
