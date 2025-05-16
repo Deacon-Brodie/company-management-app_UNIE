@@ -20,6 +20,7 @@ jobs:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
           VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
         run: |
+          ./veracode configure
           ./veracode scan --source . --type directory --format json --output sast-result.json
           echo "📄 Resultado SAST:"
           cat sast-result.json
