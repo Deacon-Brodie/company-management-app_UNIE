@@ -17,8 +17,8 @@ jobs:
 
       - name: Ejecutar análisis SAST
         env:
-          VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
-          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
+          VERACODE_API_KEY_ID: vera01ei-9a1cc4a568419a2a9eb1e781e5396c61
+          VERACODE_API_KEY_SECRET: vera01es-dcc90db27edcc71aaf5403176191e0a9fd557aa6f6529a08921a21ca531b351695649c38bb8ad1d2d682fcc0166fec33d4d22a50ae021ff118299f54aad85e0c
         run: |
           echo $VERACODE_API_KEY_ID
           ./veracode scan --source . --type directory --format json --output sast-result.json
