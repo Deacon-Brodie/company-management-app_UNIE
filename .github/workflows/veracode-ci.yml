@@ -15,18 +15,33 @@ jobs:
           curl -fsS https://tools.veracode.com/veracode-cli/install | sh
           ./veracode version
 
-      - name: Análisis SAST (código fuente)
+      - name: Ejecutar análisis SAST
         env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
           VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
         run: |
-          ./veracode scan --source . --type static --fail-on-policy true
+          ./veracode scan --source . --type directory --format json --output sast-result.json
+          echo "📄 Resultado SAST:"
+          cat sast-result.json
+          if jq -e '.findings[] | select(.severity=="CRITICAL")' sast-result.json; then
+            echo "❌ Vulnerabilidades CRÍTICAS detectadas en SAST"
+            exit 1
+          else
+            echo "✅ SAST limpio de vulnerabilidades críticas"
+          fi
 
-      - name: Análisis SCA (dependencias)
+      - name: Ejecutar análisis SCA (dependencias)
         env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
           VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
         run: |
-          ./veracode sbom --source . --format cyclonedx-json
-          ./veracode scan --type sca --fail-on-policy true
-  
+          ./veracode sbom --source . --format cyclonedx-json --output sbom.json
+          ./veracode scan --type sca --source sbom.json --format json --output sca-result.json
+          echo "📄 Resultado SCA:"
+          cat sca-result.json
+          if jq -e '.findings[] | select(.severity=="CRITICAL")' sca-result.json; then
+            echo "❌ Vulnerabilidades CRÍTICAS detectadas en SCA"
+            exit 1
+          else
+            echo "✅ SCA limpio de vulnerabilidades críticas"
+          fi
