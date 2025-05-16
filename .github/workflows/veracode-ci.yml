@@ -16,7 +16,7 @@ jobs:
           ./veracode version
 
       - name: Ejecutar análisis SAST
-        with:
+        env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
           VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
         run: |
