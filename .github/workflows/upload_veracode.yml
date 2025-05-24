@@ -17,6 +17,7 @@ jobs:
 
       - name: Veracode Upload and Scan
         uses: veracode/veracode-uploadandscan-action@0.2.7
+
         with:
           appname: 'company-management-app_UNIE'
           createprofile: true
@@ -24,3 +25,4 @@ jobs:
           version: '${{ github.run_id }}'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY_SECRET }}'
+          deleteincompletescan: true
