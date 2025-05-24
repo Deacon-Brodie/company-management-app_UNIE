@@ -21,7 +21,6 @@ jobs:
       - name: Subir código a Veracode y ejecutar análisis
         uses: veracode/Veracode-uploadandscan-action@master
         with:
-        with:
           appname: 'company-management-app_UNIE'
           createprofile: true
           filepath: 'veracode_package.zip'
