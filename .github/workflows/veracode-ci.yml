@@ -36,9 +36,9 @@ jobs:
       - name: Ejecutar análisis SCA (dependencias)
         env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
-          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY_SECRET }}
+          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
         run: |
-          ./veracode sbom --source https://github.com/Deacon-Brodie/company-management-app_UNIE/ --type repo --format cyclonedx-json --output sbom.json
+          ./veracode sbom --source . --type directory --format cyclonedx-json --output sbom.json
           ./veracode scan --type sca --source sbom.json --format json --output sca-result.json
           cat sca-result.json
           if jq -e '.findings[] | select(.severity=="CRITICAL")' sca-result.json; then
