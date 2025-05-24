@@ -25,4 +25,4 @@ jobs:
           version: '${{ github.run_id }}'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY_SECRET }}'
-          deleteincompletescan: true
+          deleteincompletescan: false
