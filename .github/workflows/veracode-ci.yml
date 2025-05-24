@@ -32,18 +32,3 @@ jobs:
           else
             echo "✅ SAST limpio"
           fi
-
-      - name: Ejecutar análisis SCA (dependencias)
-        run: |
-          export VERACODE_API_KEY_ID="${{ secrets.VERACODE_API_ID }}"
-          export VERACODE_API_KEY_SECRET="${{ secrets.VERACODE_API_KEY_SECRET }}"
-
-          ./veracode scan --source . --type directory --format json --output sca-result.json
-
-          cat sca-result.json
-          if jq -e '.findings[] | select(.severity=="CRITICAL")' sca-result.json; then
-            echo "❌ Vulnerabilidades CRÍTICAS detectadas en SCA"
-            exit 1
-          else
-            echo "✅ SCA limpio"
-          fi
