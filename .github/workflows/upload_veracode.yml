@@ -3,8 +3,6 @@ name: Veracode Upload and Scan
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   veracode_upload:
@@ -21,9 +19,9 @@ jobs:
       - name: Subir código a Veracode y ejecutar análisis
         uses: veracode/uploadandscan-action@v0.2.7
         with:
-          appname: 'company-management-app_UNIE'  # EXACTO como se llama en Veracode
+          appname: 'company-management-app_UNIE'
           createprofile: true
           filepath: 'veracode_package.zip'
           version: '${{ github.run_id }}'
           vid: '${{ secrets.VERACODE_API_ID }}'
-          vkey: '${{ secrets.VERACODE_API_KEY_SECRET }}'
+          vkey: '${{ secrets.VERACODE_API_KEY }}'
