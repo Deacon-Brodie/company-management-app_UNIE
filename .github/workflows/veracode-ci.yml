@@ -38,12 +38,7 @@ jobs:
           export VERACODE_API_KEY_ID="${{ secrets.VERACODE_API_ID }}"
           export VERACODE_API_KEY_SECRET="${{ secrets.VERACODE_API_KEY_SECRET }}"
 
-          # Confirmar que el directorio actual tiene archivos
-          ls -la
-
-          # Ejecutar análisis SCA
-          ./veracode sbom --source "." --type directory --format cyclonedx-json --output sbom.json
-          ./veracode scan --type sca --source sbom.json --format json --output sca-result.json
+          ./veracode scan --type sca --source . --format json --output sca-result.json
 
           cat sca-result.json
           if jq -e '.findings[] | select(.severity=="CRITICAL")' sca-result.json; then
