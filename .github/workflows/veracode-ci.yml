@@ -3,25 +3,6 @@ name: Veracode SAST + SCA
 on: [push, pull_request]
 
 jobs:
-  register:
-   runs-on: ubuntu-latest
-   name: register
-   steps:
-     - name: Register build
-       id: register-build
-       uses: veracode/github-actions-integration-helper@v0.1.6
-       with:
-         action: registerBuild
-         token: ${{ github.event.client_payload.token }}
-         appname: ${{ github.event.client_payload.user_config.profile_name }}
-         source_repository: ${{ github.event.client_payload.repository.full_name }}
-         check_run_id: ${{ github.run_id }}
-         check_run_name: ${{ github.workflow }}
-         head_sha: ${{ github.event.client_payload.sha }}
-         event_type: ${{ github.event.client_payload.event_type }}
-         branch: ${{ github.event.client_payload.user_config.sandbox_scan.branch }}
-         issue_trigger_flow: ${{ github.event.client_payload.user_config.issue_trigger_flow }}
-         
   veracode_scan:
     runs-on: ubuntu-latest
 
@@ -29,26 +10,28 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v3
 
-      - name: Instalar Veracode CLI
+      - name: Instalar Veracode CLI v2
         run: |
           curl -fsS https://tools.veracode.com/veracode-cli/install | sh
           ./veracode version
 
-      - name: Ejecutar análisis SAST
+      - name: Crear archivo ZIP del código fuente
+        run: |
+          zip -r veracode_package.zip . -x "*.git*" "__pycache__/*" "*.venv*" "*.idea*" "*.md"
+
+      - name: Ejecutar análisis SAST (código fuente)
         env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
-          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY_SECRET }}
+          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
         run: |
-          ./veracode scan --source . --type repo --app-id	app_company_unie --format json --output sast-result.json
-          echo "📄 Resultado SAST:"
+          ./veracode scan --source veracode_package.zip --type archive --format json --output sast-result.json
           cat sast-result.json
           if jq -e '.findings[] | select(.severity=="CRITICAL")' sast-result.json; then
             echo "❌ Vulnerabilidades CRÍTICAS detectadas en SAST"
             exit 1
           else
-            echo "✅ SAST limpio de vulnerabilidades críticas"
+            echo "✅ SAST limpio"
           fi
-
 
       - name: Ejecutar análisis SCA (dependencias)
         env:
@@ -57,11 +40,10 @@ jobs:
         run: |
           ./veracode sbom --source . --format cyclonedx-json --output sbom.json
           ./veracode scan --type sca --source sbom.json --format json --output sca-result.json
-          echo "📄 Resultado SCA:"
           cat sca-result.json
           if jq -e '.findings[] | select(.severity=="CRITICAL")' sca-result.json; then
             echo "❌ Vulnerabilidades CRÍTICAS detectadas en SCA"
             exit 1
           else
-            echo "✅ SCA limpio de vulnerabilidades críticas"
+            echo "✅ SCA limpio"
           fi
