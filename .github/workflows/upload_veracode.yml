@@ -19,7 +19,7 @@ jobs:
           zip -r veracode_package.zip . -x "*.git*" "__pycache__/*"
 
       - name: Subir código a Veracode y ejecutar análisis
-        uses: veracode/uploadandscan-action@v0.2.6
+        uses: veracode/veracode-uploadandscan-action@main
         with:
           appname: 'company-management-app_UNIE'
           createprofile: true
