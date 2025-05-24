@@ -38,7 +38,7 @@ jobs:
           export VERACODE_API_KEY_ID="${{ secrets.VERACODE_API_ID }}"
           export VERACODE_API_KEY_SECRET="${{ secrets.VERACODE_API_KEY_SECRET }}"
 
-          ./veracode scan --type sca --source . --format json --output sca-result.json
+          ./veracode scan --source . --type directory --format json --output sca-result.json
 
           cat sca-result.json
           if jq -e '.findings[] | select(.severity=="CRITICAL")' sca-result.json; then
