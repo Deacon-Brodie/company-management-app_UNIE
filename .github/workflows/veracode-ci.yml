@@ -22,7 +22,7 @@ jobs:
       - name: Ejecutar análisis SAST (código fuente)
         env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
-          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
+          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY_SECRET }}
         run: |
           ./veracode scan --source veracode_package.zip --type archive --format json --output sast-result.json
           cat sast-result.json
@@ -36,7 +36,7 @@ jobs:
       - name: Ejecutar análisis SCA (dependencias)
         env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
-          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
+          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY_SECRET }}
         run: |
           ./veracode sbom --source . --format cyclonedx-json --output sbom.json
           ./veracode scan --type sca --source sbom.json --format json --output sca-result.json
