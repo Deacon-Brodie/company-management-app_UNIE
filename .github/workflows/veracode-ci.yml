@@ -36,7 +36,7 @@ jobs:
       - name: Ejecutar análisis SCA (dependencias)
         env:
           VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
-          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
+          VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY_SECRET }}
         run: |
           ./veracode sbom --source . --type directory --format cyclonedx-json --output sbom.json
           ./veracode scan --type sca --source sbom.json --format json --output sca-result.json
