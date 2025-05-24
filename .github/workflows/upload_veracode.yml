@@ -21,9 +21,10 @@ jobs:
       - name: Subir código a Veracode y ejecutar análisis
         uses: veracode/Veracode-uploadandscan-action@master
         with:
+        with:
           appname: 'company-management-app_UNIE'
           createprofile: true
           filepath: 'veracode_package.zip'
           version: '${{ github.run_id }}'
           vid: '${{ secrets.VERACODE_API_ID }}'
-          vkey: '${{ secrets.VERACODE_API_KEY }}'
+          vkey: '${{ secrets.VERACODE_API_KEY_SECRET }}'
