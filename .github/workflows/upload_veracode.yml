@@ -1,0 +1,29 @@
+name: Veracode Upload and Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  veracode_upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Comprimir código fuente
+        run: |
+          zip -r veracode_package.zip . -x "*.git*" "__pycache__/*"
+
+      - name: Subir código a Veracode y ejecutar análisis
+        uses: veracode/uploadandscan-action@v0.2.7
+        with:
+          appname: 'company-management-app_UNIE'  # EXACTO como se llama en Veracode
+          createprofile: true
+          filepath: 'veracode_package.zip'
+          version: '${{ github.run_id }}'
+          vid: '${{ secrets.VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY_SECRET }}'
