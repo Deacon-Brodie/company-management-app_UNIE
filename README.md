@@ -9,7 +9,7 @@ This system simulates a realistic business environment and includes features suc
 
 ## 🚀 Features
 
-- User authentication with role-based access
+- User authentication with role-based access.
 - Company listing, creation, editing, and viewing
 - Commenting system
 - Admin dashboard for user and company management
