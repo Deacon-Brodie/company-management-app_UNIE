@@ -19,8 +19,8 @@ def login():
         password = request.form['password']
 
         conn = get_users_connection()
-        #user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
-        user = conn.execute("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'").fetchone()
+        user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
+        
 
         conn.close()
 
