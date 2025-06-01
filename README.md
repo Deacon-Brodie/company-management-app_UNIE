@@ -114,3 +114,6 @@ chmod +x start.sh
 
 ---
 
+## 🌍 URL pública
+
+👉 [https://company-management-app-unie.onrender.com](https://company-management-app-unie.onrender.com)
