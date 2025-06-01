@@ -18,7 +18,9 @@ def login():
         password = request.form['password']
 
         conn = get_users_connection()
-        user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
+        #user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
+        user = conn.execute("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'").fetchone()
+
         conn.close()
 
         if user and verify_password(password, user['password'], user['username']):
