@@ -26,10 +26,4 @@ jobs:
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY_SECRET }}'
           deleteincompletescan: false
-
           
-      - name: Veracode Software Composition Analysis (SCA)
-        uses: veracode/veracode-sca@v2.0.10
-        with:
-          vid: '${{ secrets.VERACODE_API_ID }}'
-          vkey: '${{ secrets.VERACODE_API_KEY_SECRET }}'
