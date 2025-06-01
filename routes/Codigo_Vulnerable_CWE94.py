@@ -4,7 +4,10 @@ app = Flask(__name__)
 @app.route("/test")
 def test():
     user_input = request.args.get("input")
-    
-    # VULNERABILIDAD: Ejecuta código arbitrario del usuario
-    result = eval(user_input)
-    return str(result)
+
+    #  Corrección segura (por ejemplo, limitar entrada a enteros)
+    try:
+        result = int(user_input) * 2
+        return str(result)
+    except (ValueError, TypeError):
+        return "Entrada inválida", 400
