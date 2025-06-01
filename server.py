@@ -7,10 +7,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# VULNERABILIDAD: Clave secreta declarada directamente en el código
-app.secret_key = "S3cr3t_K3y_hardcoded_123"
-
-#app.secret_key = os.getenv('FLASK_SECRET_KEY')
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
 csrf = CSRFProtect(app)  # Activar protección CSRF
 
