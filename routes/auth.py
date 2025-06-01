@@ -2,9 +2,8 @@ from flask import request, redirect, render_template, session
 from server import app
 from db import get_users_connection, hash_password, verify_password
 from forms import DummyForm
-import sqlite3
 
-'''
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = DummyForm()
@@ -34,21 +33,3 @@ def login():
             return render_template('auth/login.html', error="Invalid username or password")
 
     return render_template('auth/login.html') 
-    '''
-
-
-@app.route("/login", methods=["POST"])
-def login():
-    username = request.form["username"]
-    password = request.form["password"]
-
-    conn = sqlite3.connect("db/users.db")
-    cursor = conn.cursor()
-
-    # ❌ SQL Injection vulnerable
-    query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
-    cursor.execute(query)
-    user = cursor.fetchone()
-
-    conn.close()
-    return "OK"
