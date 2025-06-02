@@ -21,10 +21,10 @@ This system simulates a realistic business environment and includes features suc
 
 - **Python 3** with **Flask** and **Flask-WFT**
 - **SQLite** for database
-- **Werkzeug** for database
-- **Gunicorn** for database
-- **Python-dotenv** for database
-- **Bcrypt** for database
+- **Werkzeug** Toolkit WSGI para Python
+- **Gunicorn** Servidor WSGI de producción
+- **Python-dotenv** Gestión de variables de entorno
+- **Bcrypt** Hash seguro para contraseñas
 - **Bootstrap 5** for responsive UI
 - **Jinja2** for templating
 - **JavaScript** for interactivity
